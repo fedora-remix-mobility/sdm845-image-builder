@@ -23,5 +23,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Fedora-Remix-Mobility-SDM845-OnePlus
-          path: ./fedora-kiwi-descriptions/outdir-build/Fedora-Remix-Mobility.tar.gz
+          path: ./fedora-kiwi-descriptions/outdir-build/Fedora-Remix-Mobility.tar.xz
           compression-level: 0

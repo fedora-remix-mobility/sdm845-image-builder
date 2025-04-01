@@ -149,4 +149,4 @@ cp --reflink -a newefipart.vfat out/Fedora-Remix-Mobility-EFI.img
 cp --reflink -a bootpart.ext4 out/Fedora-Remix-Mobility-BOOT.img
 cp --reflink -a rootpart.btrfs out/Fedora-Remix-Mobility-ROOT.img
 
-tar -zcvf Fedora-Remix-Mobility.tar.gz out/*
+tar -Jcvf Fedora-Remix-Mobility.tar.xz out/*
