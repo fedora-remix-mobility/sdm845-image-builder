@@ -125,20 +125,26 @@ EOF
 umount /mnt/system/sys/fs/selinux /mnt/system/sys /mnt/system/proc /mnt/system/dev /mnt/system/boot/efi /mnt/system/boot /mnt/system/var /mnt/system/home /mnt/system
 
 mkdir -p out
-img2simg newefipart.vfat out/Fedora-Remix-Mobility-EFI.simg
-img2simg bootpart.ext4 out/Fedora-Remix-Mobility-BOOT.simg
-img2simg rootpart.btrfs out/Fedora-Remix-Mobility-ROOT.simg
 
-cat > out/flashall.sh <<'EOF'
-  #!/bin/sh
-  fastboot set_active b
-  fastboot flash op2 Fedora-Remix-Mobility-EFI.simg
-  fastboot flash system Fedora-Remix-Mobility-BOOT.simg
-  fastboot flash userdata Fedora-Remix-Mobility-ROOT.simg
-  echo "Success! Upload is ready, but you still must execute:"
-  echo "  fastboot reboot"
-  echo "Don't try to reboot manually, as the files may not be"
-  echo "fully flashed yet."
-EOF
+# img2simg newefipart.vfat out/Fedora-Remix-Mobility-EFI.simg
+# img2simg bootpart.ext4 out/Fedora-Remix-Mobility-BOOT.simg
+# img2simg rootpart.btrfs out/Fedora-Remix-Mobility-ROOT.simg
 
-chmod 0755 ./flashall.sh
+# cat > out/flashall.sh <<'EOF'
+#   #!/bin/sh
+#   fastboot set_active b
+#   fastboot flash op2 Fedora-Remix-Mobility-EFI.simg
+#   fastboot flash system Fedora-Remix-Mobility-BOOT.simg
+#   fastboot flash userdata Fedora-Remix-Mobility-ROOT.simg
+#   echo "Success! Upload is ready, but you still must execute:"
+#   echo "  fastboot reboot"
+#   echo "Don't try to reboot manually, as the files may not be"
+#   echo "fully flashed yet."
+# EOF
+
+# Unfortunately, for now img2simg doesn't work due to a random assertion failure.
+# Let's ship just the regular images.
+
+cp --reflink -a newefipart.vfat out/Fedora-Remix-Mobility-EFI.img
+cp --reflink -a bootpart.ext4 out/Fedora-Remix-Mobility-BOOT.img
+cp --reflink -a rootpart.btrfs out/Fedora-Remix-Mobility-ROOT.img
