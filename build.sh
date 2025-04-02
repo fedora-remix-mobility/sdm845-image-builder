@@ -69,6 +69,10 @@ cp --update -a firmware-oneplus-sdm845/usr /mnt/system/
 cp --update -a firmware-oneplus-sdm845/lib /mnt/system/usr
 # Hide ipa-fws.mbn. Somehow loading this firmware drops the phone into Crashdump mode
 mv /mnt/system/usr/lib/firmware/qcom/sdm845/oneplus6/ipa_fws.mbn{,.disabled}
+# Overlay Bluetooth firmware as suggested by:
+# https://wiki.postmarketos.org/wiki/Qualcomm_Snapdragon_845/850_(SDM845/SDM850)#Bluetooth
+mkdir -p /mnt/system/usr/lib/firmware/updates/qca
+mv /mnt/system/usr/lib/firmware/postmarketos/qca/crbtfw21.tlv /mnt/system/usr/lib/firmware/updates/qca/
 
 chroot /mnt/system /bin/bash <<'EOF'
   # Restore contexts for directories messed up by firmware upload
