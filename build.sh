@@ -113,7 +113,7 @@ chroot /mnt/system /bin/bash <<'EOF'
     echo 'user:147147' | chpasswd
   
   # Enable systemd services needed for driver functionality
-  for i in bootmac-bluetooth.service hexagonrpcd-adsp-rootpd.service hexagonrpcd-adsp-sensorspd.service hexagonrpcd-sdsp.service pd-mapper.service rmtfs.service tqftpserv.service; do
+  for i in phrog.service bootmac-bluetooth.service hexagonrpcd-adsp-rootpd.service hexagonrpcd-adsp-sensorspd.service hexagonrpcd-sdsp.service pd-mapper.service rmtfs.service tqftpserv.service; do
     systemctl enable $i
   done
 
