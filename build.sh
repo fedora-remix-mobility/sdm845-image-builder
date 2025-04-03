@@ -79,11 +79,14 @@ mkdir -p /mnt/system/usr/lib/firmware/updates/qca
 mv /mnt/system/usr/lib/firmware/postmarketos/qca/crbtfw21.tlv /mnt/system/usr/lib/firmware/updates/qca/
 
 chroot /mnt/system /bin/bash <<'EOF'
-  # Restore contexts for directories messed up by firmware upload
-  restorecon -R -v /usr
+  # Disable rghb and quiet for debugging
+  # Also disable selinux for now. We will come back to it later.
+  sed -i 's/rhgb quiet/selinux=0/' /etc/default/grub
 
-  # Disable rghb and quiet for debugging (optional)
-  sed -i 's/rhgb quiet//' /etc/default/grub
+  # Change SELinux to disabled in sysconfig too.
+  sed -i s/enforcing/disabled/g /etc/sysconfig/selinux
+
+  # Regenerate cmdline
   grub2-mkconfig -o /etc/grub2-efi.cfg
 
   # Repart is segfaulting, so disable it
@@ -117,17 +120,10 @@ chroot /mnt/system /bin/bash <<'EOF'
     systemctl enable $i
   done
 
-  # Change SELinux to permissive. Some issues still persist
-  sed -i s/enforcing/permissive/g /etc/sysconfig/selinux
-
   # Add hexagonrpc config, so that sensor hardware drivers will know where to get
   # firmware from to initialize hardware.
   mkdir -p /usr/share/hexagonrpcd/
   echo 'hexagonrpcd_fw_dir="/usr/share/qcom/sdm845/OnePlus/oneplus6"' > /usr/share/hexagonrpcd/hexagonrpcd-sdsp.conf
-
-  # Ensure relabel happens on firstboot. It will take some time and then a phone
-  # will reboot.
-  touch /.autorelabel
 EOF
 
 umount /mnt/system/sys/fs/selinux /mnt/system/sys /mnt/system/proc /mnt/system/dev /mnt/system/boot/efi /mnt/system/boot /mnt/system/var /mnt/system/home /mnt/system
