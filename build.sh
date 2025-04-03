@@ -2,7 +2,7 @@
 
 dnf -y install kiwi-cli android-tools git file
 
-git clone https://github.com/fedora-remix-mobility/sdm845-images fedora-kiwi-descriptions
+git clone https://github.com/fedora-remix-mobility/fedora-kiwi-descriptions.git
 cd fedora-kiwi-descriptions
 ./kiwi-build --kiwi-file=Fedora-Mobility.kiwi --image-type=oem --image-profile=SDM845-Disk --output-dir ./outdir
 
