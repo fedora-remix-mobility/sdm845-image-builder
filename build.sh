@@ -20,6 +20,10 @@ losetup -Pf Fedora-Mobility.aarch64-Rawhide.raw
 # - loop0p2 - 1073741824
 # So the UEFI partition needs to be resized. The /boot partition may stay as large as it is.
 # We can resize it live later on if needed.
+
+# Let's wait for a moment for things to settle. An error came in our CI once.
+sleep 2
+
 dd if=/dev/loop0p1 of=efipart.vfat bs=1M
 truncate -s 268435456 newefipart.vfat
 VOLID=$(file efipart.vfat | grep -Eo "serial number 0x.{8}" | cut -d\  -f3)
